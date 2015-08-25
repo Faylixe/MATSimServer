@@ -9,7 +9,7 @@ import org.matsim.core.controler.listener.BeforeMobsimListener;
  * 
  * @author fv
  */
-public final class MobsimListener implements BeforeMobsimListener, AfterMobsimListener {
+public final class MobsimPhaseListener implements BeforeMobsimListener, AfterMobsimListener {
 
 	/*
 	 * (non-Javadoc)
