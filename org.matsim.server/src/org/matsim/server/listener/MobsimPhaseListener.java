@@ -1,4 +1,4 @@
-package org.matsim.server.listeners;
+package org.matsim.server.listener;
 
 import org.matsim.core.controler.events.AfterMobsimEvent;
 import org.matsim.core.controler.events.BeforeMobsimEvent;

@@ -1,4 +1,4 @@
-package org.matsim.server.listeners;
+package org.matsim.server.listener;
 
 import org.matsim.core.controler.events.ScoringEvent;
 import org.matsim.core.controler.listener.ScoringListener;

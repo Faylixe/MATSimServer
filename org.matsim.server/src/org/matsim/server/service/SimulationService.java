@@ -1,4 +1,4 @@
-package org.matsim.server.services;
+package org.matsim.server.service;
 
 import java.util.Optional;
 
