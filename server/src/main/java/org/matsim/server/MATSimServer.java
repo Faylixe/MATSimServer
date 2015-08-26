@@ -34,7 +34,7 @@ public final class MATSimServer extends ResourceConfig  {
 	/**
 	 * TODO : Javadoc.
 	 * 
-	 * @param args
+	 * @param args Command line args.
 	 */
 	public static void main(final String [] args) {
 		// Build URI.

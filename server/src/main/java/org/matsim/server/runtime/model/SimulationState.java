@@ -55,7 +55,6 @@ public final class SimulationState {
 
 	/**
 	 * 
-	 * @param iteration
 	 */
 	public void incrementIteration() {
 		iteration++;

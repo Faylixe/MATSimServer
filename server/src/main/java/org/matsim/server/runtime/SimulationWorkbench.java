@@ -42,8 +42,8 @@ public final class SimulationWorkbench {
 	 * Register the given simulation into this workbench.
 	 * Ensuring it is not existing yet.
 	 * 
-	 * <note>Enhancement : Computing simulation input
-	 * checksum in order to avoid duplication.</note>
+	 * <b>Enhancement : Computing simulation input
+	 * checksum in order to avoid duplication.</b>
 	 * 
 	 * @param simulation Simulation to register.
 	 */
@@ -79,6 +79,7 @@ public final class SimulationWorkbench {
 	 * the given <tt>stream</tt>, which correspond to a user
 	 * provided ZIP file which contains our simulation inputs.
 	 * 
+	 * @param stream Simulation input archive stream.
 	 * @return Created simulation instance.
 	 * @throws IllegalSimulationArchive If the given stream do not contains valid input file.
 	 */
