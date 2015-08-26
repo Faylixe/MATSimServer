@@ -1,8 +1,9 @@
 package org.matsim.server.runtime;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
+
+import org.matsim.core.controler.Controler;
+import org.matsim.server.runtime.model.Simulation;
 
 /**
  * 
@@ -13,47 +14,34 @@ public final class MATSimRuntime {
 	/** **/
 	private static Optional<MATSimRuntime> RUNTIME = Optional.empty();
 
-	/** **/
-	private final Map<Integer, Simulation> simulations;
-
 	/**
-	 * Default constructor.
+	 * 
 	 */
 	private MATSimRuntime() {
-		this.simulations = new HashMap<Integer, Simulation>();
+		
 	}
-	
+
 	/**
 	 * 
 	 * @param simulation
 	 */
-	public void registerSimulation(final Simulation simulation) {
-		if (simulations.containsKey(simulation.getId())) {
-			// TODO : Throw exception ?
-		}
-		simulations.put(simulation.getId(), simulation);
+	private void run(final Simulation simulation) {
+		final Controler controler = new Controler("");
+		controler.addControlerListener(simulation);
+		controler.run();		
 	}
 
 	/**
 	 * 
-	 * @param id
-	 * @return
+	 * @param simulation
 	 */
-	public Optional<Simulation> getSimulation(final int id) {
-		return Optional.ofNullable(simulations.get(id));
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static MATSimRuntime getInstance() {
+	public static void commit(final Simulation simulation) {
 		synchronized (MATSimRuntime.class) {
 			if (!RUNTIME.isPresent()) {
 				RUNTIME = Optional.of(new MATSimRuntime());
 			}
 		}
-		return RUNTIME.get();
+		RUNTIME.get();
 	}
-	
+
 }

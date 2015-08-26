@@ -1,8 +1,8 @@
-package org.matsim.server.runtime;
+package org.matsim.server.runtime.model;
 
+import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.events.BeforeMobsimEvent;
 import org.matsim.core.controler.events.IterationEndsEvent;
 import org.matsim.core.controler.events.ReplanningEvent;
@@ -17,66 +17,79 @@ import org.matsim.core.controler.listener.ShutdownListener;
 import org.matsim.core.controler.listener.StartupListener;
 
 /**
+ * Model representation for a simulation instance available
+ * on this server. Such instance are defined by a unique identifier
+ * and a working directory.
  * 
  * @author fv
  */
-public final class Simulation implements Runnable, StartupListener,
-		ShutdownListener, IterationEndsListener, BeforeMobsimListener,
-		ReplanningListener, ScoringListener {
+public final class Simulation implements StartupListener, ShutdownListener,
+		IterationEndsListener, BeforeMobsimListener, ReplanningListener,
+		ScoringListener {
 
-	/** **/
+	/** Counter for creating Simulation unique index. **/
 	private static final AtomicInteger ID_FACTORY = new AtomicInteger();
 
-	/** **/
+	/** Simulation identifier. **/
 	private final int id;
 
-	/** **/
+	/** State of this simulation. **/
 	private final SimulationState state;
 
-	/** **/
-	private final String path;
+	/** Target directory this simulation is registered into. **/
+	private final Path path;
+
+	/** Boolean flag that indicates if this simulation is active (namely running) or not. **/
+	private boolean active;
 
 	/**
+	 * Default constructor.
 	 * 
+	 * @param id Simulation identifier.
+	 * @param path Target directory this simulation is registered into.
 	 */
-	private Simulation(final int id, final String path) {
+	private Simulation(final int id, final Path path) {
 		this.id = id;
 		this.path = path;
+		this.active = false;
 		this.state = new SimulationState();
 	}
 
 	/**
+	 * Identifier getter.
 	 * 
-	 * @return
+	 * @return Simulation identifier.
 	 */
 	public int getId() {
 		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+	/**
+	 * Indicates if this simulation is active or not.
+	 * 
+	 * @return <tt>true</tt> if this simulation is running, <tt>false</tt> otherwise.
 	 */
-	@Override
-	public void run() {
-		final Controler controler = new Controler(path);
-		controler.run();
+	public boolean isActive() {
+		return active;
 	}
 
 	/**
+	 * Synchronized access to the simulation state. 
 	 * 
-	 * @return
+	 * @return State of this simulation.
 	 */
 	public synchronized SimulationState getState() {
 		return state;
 	}
 
 	/**
+	 * Static factory method for creating unique
+	 * identified simulation instance.
 	 * 
-	 * @param path
-	 * @return
+	 * @param path Target directory this simulation is registered into.
+	 * @return Created simulation instance.
 	 */
-	public static Simulation createSimulation(final String path) {
+	public static Simulation createSimulation(final Path path) {
 		final int id = ID_FACTORY.getAndIncrement();
 		return new Simulation(id, path);
 	}
@@ -96,7 +109,7 @@ public final class Simulation implements Runnable, StartupListener,
 	 */
 	@Override
 	public void notifyShutdown(final ShutdownEvent event) {
-		// Do nothing yet.
+		getState().deleteIteration();
 	}
 
 	/*
@@ -105,7 +118,7 @@ public final class Simulation implements Runnable, StartupListener,
 	 */
 	@Override
 	public void notifyStartup(final StartupEvent event) {
-		// Do nothing yet.
+		getState().createIteration();
 	}
 
 	/*

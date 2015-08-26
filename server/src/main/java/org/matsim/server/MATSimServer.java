@@ -4,9 +4,11 @@ import java.net.URI;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
+import org.matsim.server.service.SimulationService;
 
 /**
  * {@link MATSimServer} application is the entry point
@@ -30,7 +32,7 @@ public final class MATSimServer extends ResourceConfig  {
 	private static final String LOGGER_FORMAT_PATTERN = "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%6$s%n";
 
 	/** Class logger. **/
-	//private static final Logger LOG = Logger.getLogger(MATSimServer.class.getName());
+	private static final Logger LOG = Logger.getLogger(MATSimServer.class.getName());
 
 	/**
 	 * Default constructor.
@@ -38,6 +40,7 @@ public final class MATSimServer extends ResourceConfig  {
 	 */
 	public MATSimServer() {
 		register(MultiPartFeature.class);
+		register(SimulationService.class);
 	}
 
 	/**
@@ -48,7 +51,12 @@ public final class MATSimServer extends ResourceConfig  {
 		System.setProperty(LOGGER_FORMAT_PROPERTY, LOGGER_FORMAT_PATTERN);
 		final URI uri = UriBuilder.fromUri(DEFAULT_HOSTNAME).port(DEFAULT_PORT).build();
 		final MATSimServer server = new MATSimServer();
-		JettyHttpContainerFactory.createServer(uri, server);
+		try {
+			JettyHttpContainerFactory.createServer(uri, server);
+		}
+		catch (final Exception e) {
+			LOG.error("An error occurs : " + e.getMessage());
+		}
 	}
 
 }

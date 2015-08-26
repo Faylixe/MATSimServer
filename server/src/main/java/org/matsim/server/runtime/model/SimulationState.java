@@ -1,4 +1,4 @@
-package org.matsim.server.runtime;
+package org.matsim.server.runtime.model;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -59,6 +59,20 @@ public final class SimulationState {
 	 */
 	public void incrementIteration() {
 		iteration++;
+	}
+	
+	/**
+	 * 
+	 */
+	public void deleteIteration() {
+		iteration = null;
+	}
+	
+	/**
+	 * 
+	 */
+	public void createIteration() {
+		iteration = 0;
 	}
 
 	/**
