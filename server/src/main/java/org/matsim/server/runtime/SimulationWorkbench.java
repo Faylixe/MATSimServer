@@ -91,8 +91,7 @@ public final class SimulationWorkbench {
 			return Simulation.createSimulation(directory);
 		}
 		catch (final IOException e) {
-			// TODO : Custom error.
-			throw new IllegalSimulationArchive();
+			throw new IllegalSimulationArchive(e);
 		}
 	}
 

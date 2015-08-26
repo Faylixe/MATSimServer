@@ -19,18 +19,6 @@ import org.matsim.server.service.SimulationService;
  */
 public final class MATSimServer extends ResourceConfig  {
 
-	/** Default server port to use. **/
-	private static final int DEFAULT_PORT = 8080;
-
-	/** **/
-	private static final String DEFAULT_HOSTNAME = "http://localhost";
-
-	/** Java property key for the logger format. **/
-	private static final String LOGGER_FORMAT_PROPERTY = "java.util.logging.SimpleFormatter.format";
-
-	/** Logger formatting pattern used. **/
-	private static final String LOGGER_FORMAT_PATTERN = "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%6$s%n";
-
 	/** Class logger. **/
 	private static final Logger LOG = Logger.getLogger(MATSimServer.class.getName());
 
@@ -44,17 +32,22 @@ public final class MATSimServer extends ResourceConfig  {
 	}
 
 	/**
+	 * TODO : Javadoc.
 	 * 
 	 * @param args
 	 */
 	public static void main(final String [] args) {
-		System.setProperty(LOGGER_FORMAT_PROPERTY, LOGGER_FORMAT_PATTERN);
-		final URI uri = UriBuilder.fromUri(DEFAULT_HOSTNAME).port(DEFAULT_PORT).build();
+		// Build URI.
+		final UriBuilder builder = UriBuilder.fromUri(MATSimServerConstants.DEFAULT_HOSTNAME);
+		builder.port(MATSimServerConstants.DEFAULT_PORT);
+		final URI uri = builder.build();
+		// Build server context and runs it.
 		final MATSimServer server = new MATSimServer();
 		try {
 			JettyHttpContainerFactory.createServer(uri, server);
 		}
 		catch (final Exception e) {
+			// TODO : Improves error logging here.
 			LOG.error("An error occurs : " + e.getMessage());
 		}
 	}

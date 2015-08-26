@@ -7,30 +7,40 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.matsim.server.MATSimServerConstants;
+
 /**
+ * {@link FileContainer} represents our server
+ * working directory, on which file are uploaded
+ * and created. It uses the system property defined by
+ * {@link MATSimServerConstants#CONTAINER_PROPERTY} in order
+ * to locate the target directory to use.
  * 
  * @author fv
  */
 public final class FileContainer {
 
-	/** **/
+	/** Unique instance of our {@link FileContainer}. **/
 	private static Optional<FileContainer> INSTANCE = Optional.empty();
 
-	/** **/
+	/** Root path of our wokring directory. **/
 	private final Path root;
 
 	/**
-	 * 
+	 * Default constructor.
+	 * Initializes our root path by parsing the system properties.
 	 */
 	private FileContainer() {
-		// TODO : Check for folder parameters.
-		this.root = null;
+		final String target = System.getProperty(MATSimServerConstants.CONTAINER_PROPERTY);
+		this.root = Paths.get(target);
 	}
 
 	/**
+	 * Creates a new working directory child
+	 * using a {@link UUID} as directory name.
 	 * 
-	 * @return
-	 * @throws IOException 
+	 * @return Path of the created directory.
+	 * @throws IOException If any error occurs while creating directory.
 	 */
 	public Path create() throws IOException {
 		final String uuid = UUID.randomUUID().toString();
@@ -40,9 +50,12 @@ public final class FileContainer {
 	}
 
 	/**
+	 * Static factory method that allows to create a new directory
+	 * into the server working directory. If {@link FileContainer}
+	 * instance does not exist it will be created (thread-safe).
 	 * 
-	 * @return
-	 * @throws IOException 
+	 * @return Path of the created directory.
+	 * @throws IOException If any error occurs while creating directory.
 	 */
 	public static Path createDirectory() throws IOException {
 		synchronized (FileContainer.class) {
