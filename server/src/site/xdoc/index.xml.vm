@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+	xmlns="http://maven.apache.org/XDOC/2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+	
+	<properties>
+		<title>MATSim Server</title>
+		<author email="felix.voituret@gmail.com">Faylixe</author>
+	</properties>
+
+	<body>
+	
+		<section name="">
+			<br/>
+			<br/>
+			<center>
+				<img src="images/distant.png"/>
+				<br/>
+				<br/>
+				<p>Run simulation over a distant machine.</p>
+			</center>
+		</section>
+		
+		<section name="">
+			<br/>
+			<br/>
+			<center>
+				<img src="images/rest.png"/>
+				<br/>
+				<br/>
+				<p>Upload your simulation's initial demand and run it using RESTFull API.</p>
+			</center>
+		</section>
+		
+		<section name="">
+			<br/>
+			<br/>
+			<center>
+				<img src="images/monitoring.png" />
+				<br/>
+				<br/>
+				<p>Track simulation progress whenever you want, including iteration steps.</p>
+			</center>
+		</section>
+		
+	</body>	
+
+</document>
