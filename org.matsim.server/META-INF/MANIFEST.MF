@@ -7,15 +7,15 @@ Bundle-Activator: org.matsim.server.Activator
 Bundle-Vendor: Faylixe
 Require-Bundle: org.eclipse.core.runtime,
  org.matsim;bundle-version="1.0.0",
- org.eclipse.jetty.http;bundle-version="9.2.9",
- org.eclipse.jetty.io;bundle-version="9.2.9",
- org.eclipse.jetty.security;bundle-version="9.2.9",
- org.eclipse.jetty.server;bundle-version="9.2.9",
- org.eclipse.jetty.servlet;bundle-version="9.2.9",
- org.eclipse.jetty.util;bundle-version="9.2.9",
- org.eclipse.jetty.continuation;bundle-version="9.2.9",
- org.eclipse.equinox.http.jetty;bundle-version="3.1.0",
- javax.servlet;bundle-version="3.1.0"
+ org.eclipse.equinox.http.jetty;bundle-version="3.0.200",
+ org.eclipse.jetty.continuation;bundle-version="8.1.16",
+ org.eclipse.jetty.http;bundle-version="8.1.16",
+ org.eclipse.jetty.io;bundle-version="8.1.16",
+ org.eclipse.jetty.security;bundle-version="8.1.16",
+ org.eclipse.jetty.server;bundle-version="8.1.16",
+ org.eclipse.jetty.servlet;bundle-version="8.1.16",
+ org.eclipse.jetty.util;bundle-version="8.1.16",
+ javax.servlet;bundle-version="3.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
