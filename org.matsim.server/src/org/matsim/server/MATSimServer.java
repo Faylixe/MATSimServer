@@ -1,15 +1,17 @@
 package org.matsim.server;
 
+import java.net.URI;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.matsim.server.service.SimulationService;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 
 /**
  * {@link MATSimServer} application is the entry point
@@ -18,19 +20,13 @@ import org.matsim.server.service.SimulationService;
  * 
  * @author fv
  */
-public final class MATSimServer implements IApplication {
+public final class MATSimServer extends ResourceConfig implements IApplication {
 
 	/** Default server port to use. **/
 	private static final int DEFAULT_PORT = 8080;
 
-	/** Parameters key for the {@link ServletHolder} instance. **/
-	private static final String INIT_PARAMETER = "jersey.config.server.provider.classnames";
-
-	/** {@link ServletHolder} supported path. **/
-	private static final String PATH_SPEC = "/*";
-
-	/** Context path for our servlet context. **/
-	private static final String CONTEXT_PATH = "/";
+	/** **/
+	private static final String DEFAULT_HOSTNAME = "http://localhost";
 
 	/** Java property key for the logger format. **/
 	private static final String LOGGER_FORMAT_PROPERTY = "java.util.logging.SimpleFormatter.format";
@@ -50,22 +46,7 @@ public final class MATSimServer implements IApplication {
 	 */
 	public MATSimServer() {
 		this.webservice = Optional.empty();
-	}
-
-	/**
-	 * Creates our server handler that will
-	 * contains our RESTFull servlet.
-	 * 
-	 * @return Created {@link ServletContextHandler} instance.
-	 */
-	private ServletContextHandler createHandler() {
-		final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		context.setContextPath(CONTEXT_PATH);
-		context.setClassLoader(ServletContainer.class.getClassLoader());
-		final ServletHolder holder = context.addServlet(ServletContainer.class, PATH_SPEC);
-		holder.setInitOrder(0);
-		holder.setInitParameter(INIT_PARAMETER, SimulationService.class.getCanonicalName());
-		return context;
+		register(MultiPartFeature.class);
 	}
 
 	/**
@@ -75,13 +56,11 @@ public final class MATSimServer implements IApplication {
 	 * @throws Exception If any error occurs while starting server.
 	 */
 	private void createServer() throws Exception {
-		webservice = Optional.of(new Server(DEFAULT_PORT));
-		if (webservice.isPresent()) {
-			final Server server = webservice.get();
-			server.setHandler(createHandler());
-			server.start();
-			server.join();
-		}
+		final URI uri = UriBuilder.fromUri(DEFAULT_HOSTNAME).port(DEFAULT_PORT).build();
+		final Server server = JettyHttpContainerFactory.createServer(uri, this);
+		server.start();
+		this.webservice = Optional.of(server);
+		server.join();
 	}
 
 	/*

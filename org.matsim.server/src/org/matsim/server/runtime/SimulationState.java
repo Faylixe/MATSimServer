@@ -57,8 +57,8 @@ public final class SimulationState {
 	 * 
 	 * @param iteration
 	 */
-	public void setIteration(final Integer iteration) {
-		this.iteration = iteration;
+	public void incrementIteration() {
+		iteration++;
 	}
 
 	/**

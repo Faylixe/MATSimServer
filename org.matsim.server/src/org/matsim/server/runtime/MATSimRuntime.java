@@ -1,5 +1,7 @@
 package org.matsim.server.runtime;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -12,21 +14,33 @@ public final class MATSimRuntime {
 	private static Optional<MATSimRuntime> RUNTIME = Optional.empty();
 
 	/** **/
-	private Optional<Simulation> simulation;
+	private final Map<Integer, Simulation> simulations;
 
 	/**
 	 * Default constructor.
 	 */
 	private MATSimRuntime() {
-		this.simulation = Optional.empty();
+		this.simulations = new HashMap<Integer, Simulation>();
+	}
+	
+	/**
+	 * 
+	 * @param simulation
+	 */
+	public void registerSimulation(final Simulation simulation) {
+		if (simulations.containsKey(simulation.getId())) {
+			// TODO : Throw exception ?
+		}
+		simulations.put(simulation.getId(), simulation);
 	}
 
 	/**
 	 * 
+	 * @param id
 	 * @return
 	 */
-	public Optional<Simulation> getSimulation() {
-		return simulation;
+	public Optional<Simulation> getSimulation(final int id) {
+		return Optional.ofNullable(simulations.get(id));
 	}
 
 	/**

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="libs/jersey-container-jetty-http-2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jersey-jetty-connector-2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jersey-media-multipart-2.21.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/aopalliance-repackaged-2.4.0-b31.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/asm-debug-all-5.0.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/hk2-api-2.4.0-b31.jar"/>
