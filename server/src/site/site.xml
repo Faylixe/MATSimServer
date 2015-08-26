@@ -22,6 +22,7 @@
 				<index>
 					<sections>
 						<columns>3</columns>
+						<body />
 					</sections>
 				</index>
 			</pages>
@@ -30,12 +31,13 @@
 	
 	<body>
 		
-		<menu name="MATSim Server">
+		<links>
 			<item name="Introduction" href="index.html"/>
 			<item name="Download" href="download.html"/>
 			<item name="RESTFull API" href="api.html" />
 			<item name="Javadoc" href="about.html"/>
-		</menu>
+		</links>
 		
-  </body>
+	</body>
+	
 </project>

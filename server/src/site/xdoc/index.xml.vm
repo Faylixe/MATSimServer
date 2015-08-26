@@ -11,39 +11,40 @@
 
 	<body>
 	
-		<section name="">
+			<section>
+				<br/><br/>
+				<p><center><img src="images/distant.png"/></center></p>
+				<br/><br/>
+				<p>Run simulation over a distant machine. Avoid using your personal machine resources,
+				and dispatch as many simulation as you want into a more powerfull computing machine.</p>
+			</section>
+			
+			<section>
+				<br/><br/>
+				<p><center><img src="images/rest.png"/></center></p>
+				<br/><br/>
+				<p>Upload your simulation's initial demand and run it using RESTFull API.
+				Data are validated, then a simulation is started. Once it is done, you
+				can retrieve output data using the API as well.</p>
+			</section>
+
+			<section>
+				<br/><br/>
+				<p><center><img src="images/monitoring.png" /></center></p>
+				<br/><br/>
+				<p>Track simulation progress whenever you want, including iteration number,
+				and simulation steps (mobsim, scoring, or replanning) as well.</p>
+			</section>
+			
 			<br/>
 			<br/>
-			<center>
-				<img src="images/distant.png"/>
-				<br/>
-				<br/>
-				<p>Run simulation over a distant machine.</p>
-			</center>
-		</section>
+
+			<br/>
+			<br/>
 		
-		<section name="">
-			<br/>
-			<br/>
-			<center>
-				<img src="images/rest.png"/>
-				<br/>
-				<br/>
-				<p>Upload your simulation's initial demand and run it using RESTFull API.</p>
-			</center>
-		</section>
-		
-		<section name="">
-			<br/>
-			<br/>
-			<center>
-				<img src="images/monitoring.png" />
-				<br/>
-				<br/>
-				<p>Track simulation progress whenever you want, including iteration steps.</p>
-			</center>
-		</section>
-		
+			<section name="Getting started">
+				<p>Want to start ? Just download <a href="">MATSim Server</a> java binary and uploads it to your server, once it is done then run it !</p>
+			</section>
 	</body>	
 
 </document>
