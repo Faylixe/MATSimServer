@@ -43,7 +43,7 @@
 
 		<links>
 			<item name="Introduction" href="index.html"/>
-			<item name="Download" href="download.html"/>
+			<item name="Download" href="https://github.com/Faylixe/MATSimServer/releases"/>
 			<item name="RESTFull API" href="api.html" />
 			<item name="Javadoc" href="apidocs/index.html"/>
 		</links>

@@ -26,7 +26,7 @@ and simulation steps (mobsim, scoring, or replanning) as well.
 
 ## Getting started
 
-Want to start ? Just download [MATSim Server](download.html) java binary and uploads it to your server, once it is done then run it !
+Want to start ? Just download [MATSim Server](https://github.com/Faylixe/MATSimServer/releases) java binary and uploads it to your server, once it is done then run it !
 
 ## Extending server
 
