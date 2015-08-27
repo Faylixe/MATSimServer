@@ -1,5 +1,7 @@
 language: java
 
+script: bundle exec mvn validate compile site
+
 jdk:
    - oraclejdk8
 
