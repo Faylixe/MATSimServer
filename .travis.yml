@@ -1,6 +1,6 @@
 language: java
 
-script: bundle exec mvn validate compile site
+script: mvn clean verify compile install site
 
 jdk:
    - oraclejdk8
