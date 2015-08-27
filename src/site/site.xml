@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Maven">
+<project name="MATSim Server">
 
 	<publishDate position="none"/>
+	
 	<version position="none" />
 	
-	<bannerLeft>
-		<name>MATSim Server</name>
-		<src>http://matsimstudio.org/logo.png</src>
-		<href>http://matsimstudio.org/server/</href>
-	</bannerLeft>
 	<skin>
 		<groupId>lt.velykis.maven.skins</groupId>
 		<artifactId>reflow-maven-skin</artifactId>
@@ -17,20 +13,34 @@
 	
 	<custom>
 		<reflowSkin>
-			<theme>bootswatch-flatly</theme>
+			<theme>bootswatch-flatly</theme>	
+			<brand>
+				<name>
+					<![CDATA[
+						<img id="brand" src="http://matsimstudio.org/images/server-white.png" alt="MATSim Server" />
+					]]>
+				</name>
+				<href>http://matsimstudio.org/server</href>
+			</brand>
 			<pages>
 				<index>
 					<sections>
+						<body />
 						<columns>3</columns>
 						<body />
 					</sections>
 				</index>
 			</pages>
+			<skinAttribution>false</skinAttribution>
 		</reflowSkin>
 	</custom>
 	
 	<body>
 		
+		<head>
+			<link rel="stylesheet" type="text/css" href="css/extension.css" />
+		</head>
+
 		<links>
 			<item name="Introduction" href="index.html"/>
 			<item name="Download" href="download.html"/>

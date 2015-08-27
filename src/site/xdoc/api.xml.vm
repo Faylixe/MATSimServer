@@ -3,48 +3,99 @@
 	xmlns="http://maven.apache.org/XDOC/2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-	
-	<properties>
-		<title>MATSim Server</title>
-		<author email="felix.voituret@gmail.com">Faylixe</author>
-	</properties>
 
+	<properties>
+		<title>Page Title</title>
+	</properties>
+	
 	<body>
 	
-			<section>
-				<br/><br/>
-				<p><center><img src="images/distant.png"/></center></p>
-				<br/><br/>
-				<p>Run simulation over a distant machine. Avoid using your personal machine resources,
-				and dispatch as many simulation as you want into a more powerfull computing machine.</p>
-			</section>
-			
-			<section>
-				<br/><br/>
-				<p><center><img src="images/rest.png"/></center></p>
-				<br/><br/>
-				<p>Upload your simulation's initial demand and run it using RESTFull API.
-				Data are validated, then a simulation is started. Once it is done, you
-				can retrieve output data using the API as well.</p>
-			</section>
-
-			<section>
-				<br/><br/>
-				<p><center><img src="images/monitoring.png" /></center></p>
-				<br/><br/>
-				<p>Track simulation progress whenever you want, including iteration number,
-				and simulation steps (mobsim, scoring, or replanning) as well.</p>
-			</section>
-			
-			<br/>
-			<br/>
-
-			<br/>
-			<br/>
+		<section>
 		
-			<section name="Getting started">
-				<p>Want to start ? Just download <a href="">MATSim Server</a> java binary and uploads it to your server, once it is done then run it !</p>
-			</section>
-	</body>	
+			<h2>RESTFull API Documentation</h2>
+			<p>You can find here documentation about RESTFull API provided by a running <b>MATSim Server</b>.
+			Note that produced data are returned to <tt>XML</tt> format.</p>
+			<br/>
+						
+			<hr></hr>
+			
+			<subsection>
+				<!-- /simulation/actives -->
+				<div class="row-fluid">
+					<div class="span1"><span class="label label-info">GET</span></div>
+					<div class="span1"><tt>/simulation/actives</tt></div>
+					<div class="span10"></div>
+				</div>
+				<div class="padded">
+					<br/>
+					<p>Retrieves all running simulations identifier.</p>
+					<p><b>Returns</b></p>
+					<div class="padded"><p>List of running simulation identifiers</p></div>
+				</div>
+			</subsection>
+			
+			<hr></hr>
+			
+			<subsection>			
+				<!-- /simulation/{id}/state -->
+				<div class="row-fluid">
+					<div class="span1"><span class="label label-info">GET</span></div>
+					<div class="span1"><tt>/simulation/{id}/state</tt></div>
+					<div class="span10"></div>
+				</div>
+				<div class="padded">
+					<br/>
+					<p>Retrieves state of the simulation corresponding to the given <tt>id</tt>. </p>
+					<p><b>Parameters</b></p>
+					<div class="padded">
+						<div class="row-fluid">
+							<div class="span2"><i>id</i></div>
+							<div class="span10">Unique identifier of the simulation we want to retrieve state from.</div>
+						</div>
+					</div>
+					<p><b>Returns</b></p>
+					<div class="padded">
+						<p>
+							Simulation state. Such state are defined by the following attribute :<br/>
+							<ul>
+								<li>Simulation duration</li>
+								<li><tt>(optional)</tt> current iteration if running</li>
+								<li><tt>(optional)</tt> current phase if running</li>
+							</ul>
+						</p>
+					</div>
+				</div>
+			</subsection>
+			
+			<hr></hr>
+			
+			<subsection>
+				<!-- /simulation/run -->
+				<div class="row-fluid">
+					<div class="span1"><span class="label label-danger">POST</span></div>
+					<div class="span1"><tt>/simulation/run</tt></div>
+					<div class="span10"></div>
+				</div>
+				<div class="padded">
+					<br/>
+					<p>Simulation submission. A ZIP archive file is expected containing required
+					initial demand for running simulation. Once data are validated, simulation
+					is started in a distinct thread and could be monitored.</p>
+					<p><b>Parameters</b></p>
+					<div class="padded">
+						<div class="row-fluid">
+							<div class="span2"><i>input</i></div>
+							<div class="span10">Unique identifier of the simulation we want to retrieve state from.</div>
+						</div>
+					</div>
+					<p><b>Returns</b></p>
+					<div class="padded">
+						-
+					</div>
+				</div>
+			</subsection>
+		</section>
+				
+	</body>
 
 </document>

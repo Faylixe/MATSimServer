@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/Faylixe/MATSimServer.svg?branch=master)](https://travis-ci.org/Faylixe/MATSimServer)
-
-![MATSim Server](http://matsimstudio.org/images/server.png)
-
 ## What is MATSim Server ?
 
 **MATSim Server** is a stand alone components originally developed for

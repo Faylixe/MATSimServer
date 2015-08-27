@@ -39,11 +39,8 @@ public final class SimulationService {
 	}
 
 	/**
-	 * RESTFull call which enumerates ids of
-	 * all active simulations.
-	 * <br>
-	 * Associated URL : 
-	 * <tt>/simulation/actives</tt>
+	 * Retrieves list of all running simulations available
+	 * on this server instance.
 	 * 
 	 * @return Custom response which contains list of active id.
 	 */
@@ -65,11 +62,14 @@ public final class SimulationService {
 	}
 
 	/**
-	 * RESTFull call which retrieves state of
-	 * a given simulation.
-	 * <br>
-	 * Associated URL : 
-	 * <tt>/simulation/{id}/state</tt>
+	 * Retrieves state of the simulation corresponding to the given <tt>id</tt>.
+	 * Such state are defined by the following attribute :<br>
+	 * 
+	 * <ul>
+	 * 	<li>Simulation duration</li>
+	 * 	<li>(optional) current iteration if running</li>
+	 * 	<li>(optional) current phase if running</li>
+	 * </ul>
 	 * 
 	 * @param id Identifier of the simulation to retrieve state from.
 	 * @return State of the simulation required.
@@ -87,12 +87,10 @@ public final class SimulationService {
 	}
 
 	/**
-	 * RESTFull call which start a new simulation
-	 * from a given uploaded simulation archive
-	 * which will contains our simulation input files.
-	 * <br>
-	 * Associated URL : 
-	 * <tt>/simulation/run</tt>
+	 * Simulation submission. A ZIP archive file is expected
+	 * containing required initial demand for running simulation.
+	 * Once data are validated, simulation is started in a distinct
+	 * thread and could be monitored using {@link #getState(int)}.
 	 * 
 	 * @param stream Input stream of the uploaded file through the POST request.
 	 * @param header Header of the uploaded file through the POST request.
