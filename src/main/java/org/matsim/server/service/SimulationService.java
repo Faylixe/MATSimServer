@@ -1,7 +1,9 @@
 package org.matsim.server.service;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -49,17 +51,12 @@ public final class SimulationService {
 	@Path("/actives")
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getActives() {
-		final StringBuffer builder = new StringBuffer();
-		builder.append("<active>");
-		workbench
-				.getSimulations()
-				.filter(Simulation::isActive)
-				.map(Simulation::getId)
-				.forEach(id -> {
-					builder.append("<id>").append(id).append("</id>");
-				});
-		builder.append("</active>");
-		return Response.status(200).entity(builder.toString()).build();
+		final List<Integer> actives = workbench
+					.getSimulations()
+					.filter(Simulation::isActive)
+					.map(Simulation::getId)
+					.collect(Collectors.toList());
+		return SimulationServiceResponses.createActivesEntity(actives);
 	}
 
 	/**
@@ -88,18 +85,6 @@ public final class SimulationService {
 	}
 
 	/**
-	 * 
-	 * @param simulation
-	 * @return
-	 */
-	private static String createCommitEntity(final Simulation simulation) {
-		final StringBuilder builder = new StringBuilder("<id>");
-		builder.append(simulation.getId());
-		builder.append("</id>");
-		return builder.toString();
-	}
-
-	/**
 	 * Simulation submission. A ZIP archive file is expected
 	 * containing required initial demand for running simulation.
 	 * Once data are validated, simulation is started in a distinct
@@ -112,6 +97,7 @@ public final class SimulationService {
 	@POST
 	@Path("/run")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_XML)
 	public Response run(@FormDataParam("input") final InputStream stream, @FormDataParam("input") final FormDataContentDisposition header) {
 		final Simulation simulation = workbench.createSimulation(stream);
 		try {
@@ -120,10 +106,7 @@ public final class SimulationService {
 		catch (final Exception e) {
 			throw new IllegalSimulationArchive(e);
 		}
-		return Response
-				.status(200)
-				.entity(createCommitEntity(simulation))
-				.build();
+		return SimulationServiceResponses.createCommitEntity(simulation);
 	}
 
 }

@@ -67,8 +67,13 @@ public final class MATSimRuntime implements ThreadFactory {
 		final Controler controler = new Controler(configuration);
 		controler.addControlerListener(simulation);
 		LOG.info("Start simulation #" + simulation.getId());
-		executor.execute(() -> {
-			controler.run();
+		executor.submit(() -> {
+			try {
+				controler.run();
+			}
+			catch (final Exception e) {
+				simulation.notifyError(e);
+			}
 		});
 	}
 

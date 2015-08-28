@@ -13,6 +13,9 @@ public enum SimulationPhase {
 	/** Simulation is over. **/
 	FINISHED,
 
+	/** An error occurs. **/
+	ERROR,
+
 	/** The simulation phase that runs all agents's scenario. **/
 	MOBSIM,
 

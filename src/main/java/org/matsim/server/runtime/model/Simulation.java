@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.matsim.core.controler.events.BeforeMobsimEvent;
 import org.matsim.core.controler.events.IterationEndsEvent;
 import org.matsim.core.controler.events.ReplanningEvent;
@@ -117,6 +118,19 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	public static Simulation createSimulation(final Path path) {
 		final int id = ID_FACTORY.getAndIncrement();
 		return new Simulation(id, path);
+	}
+
+	/**
+	 * Notifies this simulation instance that
+	 * an error occurs while running.
+	 * 
+	 * @param error Exception caught during simulation execution.
+	 */
+	public void notifyError(final Exception error) {
+		getState().setPhase(SimulationPhase.ERROR);
+		getState().deleteIteration();
+		getState().setError(ExceptionUtils.getFullStackTrace(error));
+		this.active = false;
 	}
 
 	/*
