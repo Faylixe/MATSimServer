@@ -1,5 +1,6 @@
 package org.matsim.server.runtime;
 
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.log4j.Logger;
 import org.matsim.core.config.Config;
 import org.matsim.core.controler.Controler;
-import org.matsim.server.runtime.model.Simulation;
+import org.matsim.server.common.ZipWriter;
 
 /**
  * {@link MATSimRuntime} is a simulation execution container.
@@ -59,6 +60,8 @@ public final class MATSimRuntime implements ThreadFactory {
 	/**
 	 * Loads and runs the given <tt>simulation</tt> into
 	 * a separated thread which acts as simulation sandbox.
+	 * Once the simulation is finished, the output
+	 * directory is zipped into a output archive file.
 	 * 
 	 * @param simulation Simulation to run.
 	 */
@@ -70,6 +73,9 @@ public final class MATSimRuntime implements ThreadFactory {
 		executor.submit(() -> {
 			try {
 				controler.run();
+				final Path output = simulation.getPath().resolve(Simulation.OUTPUT_DIRECTORY);
+				final Path archive = simulation.getOutputPath();
+				ZipWriter.compress(output, archive);
 			}
 			catch (final Exception e) {
 				simulation.notifyError(e);

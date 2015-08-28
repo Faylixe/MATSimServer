@@ -1,9 +1,9 @@
 package org.matsim.server.service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,11 +16,14 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.matsim.server.runtime.IllegalSimulationArchive;
+import org.matsim.server.common.ResponseFactory;
+import org.matsim.server.exception.IllegalSimulationArchive;
+import org.matsim.server.exception.SimulationNotFoundException;
+import org.matsim.server.exception.SimulationOutputNotFoundException;
 import org.matsim.server.runtime.MATSimRuntime;
+import org.matsim.server.runtime.Simulation;
+import org.matsim.server.runtime.SimulationState;
 import org.matsim.server.runtime.SimulationWorkbench;
-import org.matsim.server.runtime.model.Simulation;
-import org.matsim.server.runtime.model.SimulationState;
 
 /**
  * Web service implementations for controlling simulation
@@ -51,12 +54,7 @@ public final class SimulationService {
 	@Path("/actives")
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getActives() {
-		final List<Integer> actives = workbench
-					.getSimulations()
-					.filter(Simulation::isActive)
-					.map(Simulation::getId)
-					.collect(Collectors.toList());
-		return SimulationServiceResponses.createActivesEntity(actives);
+		return ResponseFactory.createActivesEntity(workbench.getActiveSimulation());
 	}
 
 	/**
@@ -77,11 +75,11 @@ public final class SimulationService {
 	@Path("/{id}/state")
 	@Produces(MediaType.APPLICATION_XML)
 	public SimulationState getState(@PathParam("id") final int id) {
-		final Optional<Simulation> simulation = workbench.getSimulation(id);
-		if (!simulation.isPresent()) {
+		final Optional<SimulationState> state = workbench.getSimulationState(id);
+		if (!state.isPresent()) {
 			throw new SimulationNotFoundException(id);
 		}
-		return simulation.get().getState();
+		return state.get();
 	}
 
 	/**
@@ -106,7 +104,33 @@ public final class SimulationService {
 		catch (final Exception e) {
 			throw new IllegalSimulationArchive(e);
 		}
-		return SimulationServiceResponses.createCommitEntity(simulation);
+		return ResponseFactory.createCommitEntity(simulation);
+	}
+
+	/**
+	 * Simulation output downloading method.
+	 * It builds a new ZIP archive containing
+	 * simulation output directory content in it,
+	 * and returns it for downloading.
+	 * 
+	 * @param id Identifier of the simulation to download output from.
+	 * @return Simulation output as a ZIP archive.
+	 */
+	@GET
+	@Path("/{id}/download")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response download(final int id) {
+		try {
+			final Optional<FileInputStream> stream = workbench.getOutput(id);
+			if (!stream.isPresent()) {
+				throw new SimulationNotFoundException(id);
+			}
+			return Response.ok().entity(stream.get()).build();
+		}
+		catch (final FileNotFoundException e) {
+			// TODO : Consider sending more specific message (still running, encounter error, or system error).
+			throw new SimulationOutputNotFoundException(id);
+		}
 	}
 
 }

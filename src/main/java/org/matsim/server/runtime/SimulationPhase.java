@@ -1,4 +1,4 @@
-package org.matsim.server.runtime.model;
+package org.matsim.server.runtime;
 
 /**
  * Enumeration of simulation life phase.

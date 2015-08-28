@@ -1,18 +1,21 @@
 package org.matsim.server.runtime;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
-import org.matsim.server.common.FileContainer;
 import org.matsim.server.common.ZipReader;
-import org.matsim.server.runtime.model.Simulation;
+import org.matsim.server.exception.IllegalSimulationArchive;
 
 /**
  * {@link SimulationWorkbench} contains all simulations
@@ -49,29 +52,53 @@ public final class SimulationWorkbench {
 	 */
 	public void registerSimulation(final Simulation simulation) {
 		if (simulations.containsKey(simulation.getId())) {
-			// TODO : Throw exception ?
+			new IllegalStateException("Invalid simulation key provided");
 		}
 		simulations.put(simulation.getId(), simulation);
 	}
 
 	/**
-	 * Creates and returns a {@link Stream} of all available
-	 * simulation instance.
+	 * Creates and returns a list of all
+	 * running simulation identifier.
 	 * 
-	 * @return Built {@link Stream}.
+	 * @return Built identifier list.
 	 */
-	public Stream<Simulation> getSimulations() {
-		return simulations.values().stream();
+	public List<Integer> getActiveSimulation() {
+		return simulations
+				.values()
+				.stream()
+				.filter(Simulation::isActive)
+				.map(Simulation::getId)
+				.collect(Collectors.toList());
 	}
 
 	/**
-	 * Retrieves the simulation for the given <tt>id</tt>.
+	 * Retrieves the simulation state for
+	 * the given <tt>id</tt>.
 	 * 
-	 * @param id Index of the simulation to retrieve.
-	 * @return Empty optional if the given id is not valid, valid Simulation otherwise.
+	 * @param id Index of the simulation state to retrieve.
+	 * @return Empty optional if the given id is not valid, valid state otherwise.
 	 */
-	public Optional<Simulation> getSimulation(final int id) {
-		return Optional.ofNullable(simulations.get(id));
+	public Optional<SimulationState> getSimulationState(final int id) {
+		if (!simulations.containsKey(id)) {
+			return Optional.empty();
+		}
+		return Optional.of(simulations.get(id).getState());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws FileNotFoundException 
+	 */
+	public Optional<FileInputStream> getOutput(final int id) throws FileNotFoundException {
+		if (!simulations.containsKey(id)) {
+			return Optional.empty();
+		}
+		final Simulation simulation = simulations.get(id);
+		final File target = simulation.getOutputPath().toFile();
+		final FileInputStream stream = new FileInputStream(target);
+		return Optional.of(stream);
 	}
 
 	/**
@@ -88,8 +115,7 @@ public final class SimulationWorkbench {
 			final Path directory = FileContainer.createDirectory();
 			final Path archive = directory.resolve(Paths.get(INPUT_NAME));
 			Files.copy(stream, archive);
-			final ZipReader reader = new ZipReader(Files.newInputStream(archive));
-			reader.extract(directory);
+			ZipReader.extract(archive, directory);
 			final Simulation simulation = Simulation.createSimulation(directory);
 			registerSimulation(simulation);
 			return simulation;

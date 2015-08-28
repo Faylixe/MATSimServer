@@ -32,7 +32,7 @@ public final class ZipReader {
 	 * 
 	 * @param stream Target input stream to read and extract. 
 	 */
-	public ZipReader(final InputStream stream) {
+	private ZipReader(final InputStream stream) {
 		this.stream = new ZipArchiveInputStream(stream);
 	}
 
@@ -40,15 +40,15 @@ public final class ZipReader {
 	 * Extracts all files from the internal stream
 	 * into the given <tt>target</tt> directory.
 	 * 
-	 * @param target Target directory to extract file into.
+	 * @param destination Target directory to extract file into.
 	 * @throws IOException If any error occurs while reading the archive.
 	 */
-	public void extract(final Path target) throws IOException {
+	private void extract(final Path destination) throws IOException {
 		Optional<ZipArchiveEntry> current = Optional.ofNullable(stream.getNextZipEntry());
 		while (current.isPresent()) {
 			final ZipArchiveEntry entry = current.get();
 			final Path file = Paths.get(entry.getName());
-			final Path path = target.resolve(file);
+			final Path path = destination.resolve(file);
 			if (entry.isDirectory()) {
 				Files.createDirectories(path);
 				LOG.info("Creating directory" + path.toString());
@@ -60,5 +60,19 @@ public final class ZipReader {
 			current = Optional.ofNullable(stream.getNextZipEntry());
 		}
 	}
-	
+
+	/**
+	 * Static shortcut method for extracting a given ZIP archive
+	 * to the given <tt>destination</tt>.
+	 * 
+	 * @param source Source archive to extract.
+	 * @param destination Destination path.
+	 * @throws IOException if any error occurs while extracting files.
+	 */
+	public static void extract(final Path source, final Path destination) throws IOException {
+		final InputStream stream = Files.newInputStream(source);
+		final ZipReader reader = new ZipReader(stream);
+		reader.extract(destination);
+	}
+
 }

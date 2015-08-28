@@ -1,4 +1,4 @@
-package org.matsim.server.runtime;
+package org.matsim.server.exception;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -21,7 +21,7 @@ public final class IllegalSimulationArchive extends WebApplicationException {
 	private static final int STATUS = 500;
 
 	/** Displayed error as XML tree. **/
-	private static final String MESSAGE = "<?xml version=\"1.0\" ?>\n<error><message>Provided input archive not valid : %s</message><stack>%s</stack></error>";
+	private static final String MESSAGE = "<error><message>Provided input archive not valid : %s</message><stack>%s</stack></error>";
 
 	/**
 	 * Static factory method that creates a valid

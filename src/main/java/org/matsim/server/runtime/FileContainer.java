@@ -1,4 +1,4 @@
-package org.matsim.server.common;
+package org.matsim.server.runtime;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,8 +30,7 @@ public final class FileContainer {
 	 * Default constructor.
 	 * Initializes our root path by parsing the system properties.
 	 */
-	private FileContainer() {
-		final String target = System.getProperty(MATSimServerConstants.CONTAINER_PROPERTY);
+	private FileContainer(final String target) {
 		this.root = Paths.get(target);
 	}
 
@@ -72,7 +71,9 @@ public final class FileContainer {
 	public static Path createDirectory() throws IOException {
 		synchronized (FileContainer.class) {
 			if (!INSTANCE.isPresent()) {
-				INSTANCE = Optional.of(new FileContainer());
+				final String property = System.getProperty(MATSimServerConstants.CONTAINER_PROPERTY);
+				final String root = (property == null ? MATSimServerConstants.DEFAULT_CONTAINER : property);
+				INSTANCE = Optional.of(new FileContainer(root));
 				INSTANCE.get().initialize();
 			}
 		}

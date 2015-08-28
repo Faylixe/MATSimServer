@@ -1,18 +1,20 @@
-package org.matsim.server.service;
+package org.matsim.server.common;
 
 import java.util.List;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import org.matsim.server.runtime.model.Simulation;
+import org.matsim.server.MATSimServerConstants;
+import org.matsim.server.runtime.Simulation;
 
 /**
  * Sets of static factory method for creating
- * HTTP response instance.
+ * custom HTTP response instance.
  * 
  * @author fv
  */
-public final class SimulationServiceResponses {
+public final class ResponseFactory {
 
 	/** Symbol for opening XML tag. **/
 	private static final String OPEN = "<";
@@ -29,10 +31,13 @@ public final class SimulationServiceResponses {
 	/** Tag name for active category. **/
 	private static final String ACTIVE = "active";
 
+	/** Tag name for error message. **/
+	private static final String ERROR = "error";
+
 	/**
 	 * Private constructor for avoiding instantiation.
 	 */
-	private SimulationServiceResponses() {
+	private ResponseFactory() {
 		// Do nothing.
 	}
 
@@ -67,6 +72,27 @@ public final class SimulationServiceResponses {
 		return builder.toString();
 	}
 	
+	/**
+	 * Creates an error response for invalid simulation
+	 * identifier parameters. Given <tt>message</tt> is
+	 * formatted using the <tt>id</tt> provided.
+	 * 
+	 * @param id Invalid simulation id caught.
+	 * @param message Custom error message formatted.
+	 * @return Created response.
+	 */
+	public static Response createUnknownSimulation(final int id, final String message) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(open(ERROR));
+		builder.append(String.format(message, id));
+		builder.append(close(ERROR));
+		return Response
+				.status(Status.NOT_FOUND)
+				.entity(builder.toString())
+				.type(MATSimServerConstants.ERROR_RESPONSE_TYPE)
+				.build();
+	}
+
 	/**
 	 * Creates an XML node for a simulation identifier.
 	 * 

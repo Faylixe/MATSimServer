@@ -1,4 +1,4 @@
-package org.matsim.server.runtime.model;
+package org.matsim.server.runtime;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,8 +32,11 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	/** Counter for creating Simulation unique index. **/
 	private static final AtomicInteger ID_FACTORY = new AtomicInteger();
 
-	/** Path of simulation output. **/
-	public static final String OUTPUT_PATH = "output/";
+	/** Path of simulation output archive. **/
+	public static final String OUTPUT_DIRECTORY = "output/";
+	
+	/** Path of simulation output directory. **/
+	private static final String OUTPUT_PATH = "output/";
 
 	/** Simulation identifier. **/
 	private final int id;

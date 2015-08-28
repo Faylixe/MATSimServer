@@ -1,4 +1,4 @@
-package org.matsim.server.runtime.model;
+package org.matsim.server.runtime;
 
 import java.time.Duration;
 import java.time.Instant;

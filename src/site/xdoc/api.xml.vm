@@ -80,17 +80,49 @@
 					<br/>
 					<p>Simulation submission. A ZIP archive file is expected containing required
 					initial demand for running simulation. Once data are validated, simulation
-					is started in a distinct thread and could be monitored.</p>
+					is started in a distinct thread and could be monitored. A submitted archive should
+					at least contains a file named <tt>config.xml</tt> which is the simulation configuration
+					file that will be looked for.</p>
 					<p><b>Parameters</b></p>
 					<div class="padded">
 						<div class="row-fluid">
 							<div class="span2"><i>input</i></div>
+							<div class="span10">ZIP archive file which contains our initial demand.</div>
+						</div>
+					</div>
+					<p><b>Returns</b></p>
+					<div class="padded">
+						The id of the created simulation runtime which can be used to track
+						simulation progression.
+					</div>
+				</div>
+			</subsection>
+			
+						<hr></hr>
+			
+			<subsection>
+				<!-- /simulation/{id}/download -->
+				<div class="row-fluid">
+					<div class="span1"><span class="label label-info">GET</span></div>
+					<div class="span1"><tt>/simulation/{id}/download</tt></div>
+					<div class="span10"></div>
+				</div>
+				<div class="padded">
+					<br/>
+					<p>Returns a ZIP archive which contains a ran simulation output content.
+					If the simulation hasn't finished yet, or has encountered error, a 
+					XML error object will be returned indicating that the simulation output
+					has not been found.</p>
+					<p><b>Parameters</b></p>
+					<div class="padded">
+						<div class="row-fluid">
+							<div class="span2"><i>id</i></div>
 							<div class="span10">Unique identifier of the simulation we want to retrieve state from.</div>
 						</div>
 					</div>
 					<p><b>Returns</b></p>
 					<div class="padded">
-						-
+						Simulation output as a ZIP archive.
 					</div>
 				</div>
 			</subsection>

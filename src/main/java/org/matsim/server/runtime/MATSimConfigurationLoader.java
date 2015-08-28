@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.server.runtime.model.Simulation;
 
 /**
  * A {@link MATSimConfigurationLoader} allows to load configuration file
@@ -72,7 +71,7 @@ public final class MATSimConfigurationLoader implements Supplier<Config>{
 	 * @throws IllegalStateException If any error occurs while creating output directories.
 	 */
 	private void configureOutput() {
-		final Path output = base.resolve(Simulation.OUTPUT_PATH);
+		final Path output = base.resolve(Simulation.OUTPUT_DIRECTORY);
 		if (!Files.exists(output)) {
 			try {
 				Files.createDirectories(output);
