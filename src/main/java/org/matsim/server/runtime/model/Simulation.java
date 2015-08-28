@@ -1,6 +1,7 @@
 package org.matsim.server.runtime.model;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.matsim.core.controler.events.BeforeMobsimEvent;
@@ -30,6 +31,9 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	/** Counter for creating Simulation unique index. **/
 	private static final AtomicInteger ID_FACTORY = new AtomicInteger();
 
+	/** Path of simulation output. **/
+	public static final String OUTPUT_PATH = "output/";
+
 	/** Simulation identifier. **/
 	private final int id;
 
@@ -38,6 +42,9 @@ public final class Simulation implements StartupListener, ShutdownListener,
 
 	/** Target directory this simulation is registered into. **/
 	private final Path path;
+
+	/** Path of the output directory. **/
+	private final Path output;
 
 	/** Boolean flag that indicates if this simulation is active (namely running) or not. **/
 	private boolean active;
@@ -51,6 +58,7 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	private Simulation(final int id, final Path path) {
 		this.id = id;
 		this.path = path;
+		this.output = path.resolve(Paths.get(OUTPUT_PATH));
 		this.active = false;
 		this.state = new SimulationState();
 	}
@@ -72,6 +80,15 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	public Path getPath() {
 		return path;
 	}
+
+	/**
+	 * Output directory path getter.
+	 * @return Path of the output directory.
+	 */
+	public Path getOutputPath() {
+		return output;
+	}
+
 	/**
 	 * Indicates if this simulation is active or not.
 	 * 

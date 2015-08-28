@@ -1,10 +1,13 @@
 package org.matsim.server.runtime;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.log4j.Logger;
+import org.matsim.core.config.Config;
 import org.matsim.core.controler.Controler;
 import org.matsim.server.runtime.model.Simulation;
 
@@ -15,42 +18,58 @@ import org.matsim.server.runtime.model.Simulation;
  * 
  * @author fv
  */
-public final class MATSimRuntime {
+public final class MATSimRuntime implements ThreadFactory {
 
 	/** Class logger. **/
 	private static final Logger LOG = Logger.getLogger(MATSimRuntime.class);
 
-	/** Path of configuration file to use. **/
-	private static final String CONFIGURATION_PATH = "config.xml";
-
-	/** Error message to throw when configuration file is not found. **/
-	private static final String CONFIGURATION_NOT_FOUND = "No config.xml file found";
+	/** Prefix used for simulation thread. **/
+	private static final String THREAD_PREFIX = "simulation-";
 
 	/** Unique runtime instance defined as empty optional until created. **/
 	private static Optional<MATSimRuntime> RUNTIME = Optional.empty();
 
+	/** Thread executors used as simulation sandbox. **/
+	private final ExecutorService executor;
+
+	/** Atomic integer that contains current thread index. **/
+	private final AtomicInteger counter;
+
 	/**
 	 * Default constructor.
+	 * Initializes internal thread pool.
 	 */
 	private MATSimRuntime() {
-		
+		this.counter = new AtomicInteger();
+		this.executor = Executors.newCachedThreadPool(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
+	 */
+	@Override
+	public Thread newThread(final Runnable runnable) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(THREAD_PREFIX);
+		builder.append(counter.getAndIncrement());
+		return new Thread(runnable, builder.toString());
 	}
 
 	/**
-	 * TODO :
-	 * @param simulation
+	 * Loads and runs the given <tt>simulation</tt> into
+	 * a separated thread which acts as simulation sandbox.
+	 * 
+	 * @param simulation Simulation to run.
 	 */
 	private void run(final Simulation simulation) {
-		final Path configuration = simulation.getPath().resolve(CONFIGURATION_PATH);
-		if (!Files.exists(configuration)) {
-			throw new IllegalStateException(CONFIGURATION_NOT_FOUND);
-		}
-		LOG.info("Set working directory to : " + simulation.getPath().toAbsolutePath().toString());
-		System.setProperty("user.dir", simulation.getPath().toAbsolutePath().toString());
-		final Controler controler = new Controler(configuration.toString());
-		controler.addControlerListener(simulation);
-		LOG.info("Start simulation #" + simulation.getId());
-		controler.run();		
+		executor.execute(() -> {
+			final Config configuration = MATSimConfigurationLoader.load(simulation.getPath());
+			final Controler controler = new Controler(configuration);
+			controler.addControlerListener(simulation);
+			LOG.info("Start simulation #" + simulation.getId());
+			controler.run();
+		});
 	}
 
 	/**
