@@ -88,6 +88,18 @@ public final class SimulationService {
 	}
 
 	/**
+	 * 
+	 * @param simulation
+	 * @return
+	 */
+	private static String createCommitEntity(final Simulation simulation) {
+		final StringBuilder builder = new StringBuilder("<id>");
+		builder.append(simulation.getId());
+		builder.append("</id>");
+		return builder.toString();
+	}
+
+	/**
 	 * Simulation submission. A ZIP archive file is expected
 	 * containing required initial demand for running simulation.
 	 * Once data are validated, simulation is started in a distinct
@@ -108,7 +120,10 @@ public final class SimulationService {
 		catch (final Exception e) {
 			throw new IllegalSimulationArchive(e);
 		}
-		return Response.status(200).build();
+		return Response
+				.status(200)
+				.entity(createCommitEntity(simulation))
+				.build();
 	}
 
 }

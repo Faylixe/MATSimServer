@@ -90,7 +90,9 @@ public final class SimulationWorkbench {
 			Files.copy(stream, archive);
 			final ZipReader reader = new ZipReader(Files.newInputStream(archive));
 			reader.extract(directory);
-			return Simulation.createSimulation(directory);
+			final Simulation simulation = Simulation.createSimulation(directory);
+			registerSimulation(simulation);
+			return simulation;
 		}
 		catch (final IOException e) {
 			throw new IllegalSimulationArchive(e);

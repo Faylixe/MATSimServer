@@ -47,7 +47,7 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	private final Path output;
 
 	/** Boolean flag that indicates if this simulation is active (namely running) or not. **/
-	private boolean active;
+	private volatile boolean active;
 
 	/**
 	 * Default constructor.
@@ -135,6 +135,8 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	@Override
 	public void notifyShutdown(final ShutdownEvent event) {
 		getState().deleteIteration();
+		getState().setPhase(SimulationPhase.FINISHED);
+		this.active = false;
 	}
 
 	/*
@@ -143,7 +145,9 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	 */
 	@Override
 	public void notifyStartup(final StartupEvent event) {
+		getState().setPhase(SimulationPhase.STARTUP);
 		getState().createIteration();
+		this.active = true;
 	}
 
 	/*

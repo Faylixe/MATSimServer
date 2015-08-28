@@ -63,11 +63,11 @@ public final class MATSimRuntime implements ThreadFactory {
 	 * @param simulation Simulation to run.
 	 */
 	private void run(final Simulation simulation) {
+		final Config configuration = MATSimConfigurationLoader.load(simulation.getPath());
+		final Controler controler = new Controler(configuration);
+		controler.addControlerListener(simulation);
+		LOG.info("Start simulation #" + simulation.getId());
 		executor.execute(() -> {
-			final Config configuration = MATSimConfigurationLoader.load(simulation.getPath());
-			final Controler controler = new Controler(configuration);
-			controler.addControlerListener(simulation);
-			LOG.info("Start simulation #" + simulation.getId());
 			controler.run();
 		});
 	}

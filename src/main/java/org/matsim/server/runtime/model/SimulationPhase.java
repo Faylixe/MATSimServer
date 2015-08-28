@@ -7,6 +7,12 @@ package org.matsim.server.runtime.model;
  */
 public enum SimulationPhase {
 
+	/** Simulation is stating. **/
+	STARTUP,
+
+	/** Simulation is over. **/
+	FINISHED,
+
 	/** The simulation phase that runs all agents's scenario. **/
 	MOBSIM,
 
