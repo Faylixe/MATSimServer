@@ -33,6 +33,12 @@ import org.matsim.server.runtime.SimulationWorkbench;
  */
 @Path("/simulation")
 public final class SimulationService {
+	
+	/** Header key for content disposition. **/
+	private static final String CONTENT = "Content-Disposition";
+
+	/** Filename exposed into HTTP header when downloading output. **/
+	private static final String FILENAME = "attachment; filename=output.zip";
 
 	/** Workbench instance this service is working on. **/
 	private final SimulationWorkbench workbench;
@@ -119,13 +125,13 @@ public final class SimulationService {
 	@GET
 	@Path("/{id}/download")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response download(final int id) {
+	public Response download(@PathParam("id") final int id) {
 		try {
 			final Optional<FileInputStream> stream = workbench.getOutput(id);
 			if (!stream.isPresent()) {
 				throw new SimulationNotFoundException(id);
 			}
-			return Response.ok().entity(stream.get()).build();
+			return Response.ok().header(CONTENT, FILENAME).entity(stream.get()).build();
 		}
 		catch (final FileNotFoundException e) {
 			// TODO : Consider sending more specific message (still running, encounter error, or system error).

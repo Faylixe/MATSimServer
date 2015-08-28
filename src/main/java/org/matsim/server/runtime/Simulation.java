@@ -36,7 +36,7 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	public static final String OUTPUT_DIRECTORY = "output/";
 	
 	/** Path of simulation output directory. **/
-	private static final String OUTPUT_PATH = "output/";
+	private static final String OUTPUT_PATH = "output.zip";
 
 	/** Simulation identifier. **/
 	private final int id;

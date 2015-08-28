@@ -6,7 +6,7 @@
 
 **MATSim Server** is a stand alone components originally developed for
 [MATSim Studio](http://matsimstudio.org) in order to delegate simulation
-execution into another machine.
+execution into another machine. Including following features :
 
 ---
 

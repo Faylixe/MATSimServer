@@ -36,6 +36,21 @@ public final class ZipWriter {
 	}
 
 	/**
+	 * 
+	 * @param directory
+	 */
+	private void compressDirectory(final Path directory) {
+		try {
+			Files.newDirectoryStream(directory).forEach(child -> {
+				compress(child);
+			});
+		}
+		catch (final IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	/**
 	 * Compresses the given <tt>source</tt> file by
 	 * creating the associated archive entry and writes
 	 * it content into the internal stream.
@@ -44,16 +59,21 @@ public final class ZipWriter {
 	 * @throws IOException If any error occurs while writing file content.
 	 */
 	private void compress(final Path source) {
-		LOG.info("Writing file entry " + source);
-		final File file = source.toFile();
-		final ZipArchiveEntry entry = new ZipArchiveEntry(file, file.getName());
-		try {
-			stream.putArchiveEntry(entry);
-			Files.copy(source, stream);
-			stream.closeArchiveEntry();
+		if (!Files.isDirectory(source)) {
+			LOG.info("Writing file entry " + source);
+			final File file = source.toFile();
+			final ZipArchiveEntry entry = new ZipArchiveEntry(file, file.getName());
+			try {
+				stream.putArchiveEntry(entry);
+				Files.copy(source, stream);
+				stream.closeArchiveEntry();
+			}
+			catch (final IOException e) {
+				throw new IllegalStateException(e);
+			}
 		}
-		catch (final IOException e) {
-			throw new IllegalStateException(e);
+		else {
+			compressDirectory(source);
 		}
 	}
 

@@ -3,7 +3,9 @@
 **MATSim Server** is a stand alone components originally developed for
 [MATSim Studio](http://matsimstudio.org) in order to delegate simulation
 execution into another machine.
-
+  
+  
+  
 ---
 
 #### Distant Execution
@@ -24,11 +26,7 @@ and simulation steps (mobsim, scoring, or replanning) as well.
 
 ---
 
-## Getting started
-
-Want to start ? Just download [MATSim Server](https://github.com/Faylixe/MATSimServer/releases) java binary and uploads it to your server, once it is done then run it !
-
-## Extending server
+## Extending server  
 
 Wish to add custom functionality to the server or using a different [MATSim](http://matsim.org) version ?
 You can download project source from project [GITHub repository](https://github.com/Faylixe/MATSimServer).

@@ -32,3 +32,20 @@ p.header {
 .padded {
 	padding-left: 2%;
 }
+
+/** hack for hiding REST API URL title. **/
+h3#asimulationactives, h3#asimulationidstate, h3#asimulationrun, h3#asimulationiddownload {
+	display: none;
+}
+
+body {
+	padding-bottom: 0 !important;
+}
+
+footer {
+	width: 100%;
+}
+
+.subfooter {
+	display: none !important;
+}

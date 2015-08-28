@@ -10,17 +10,20 @@
 	
 	<body>
 	
-		<section>
 		
-			<h2>RESTFull API Documentation</h2>
-			<p>You can find here documentation about RESTFull API provided by a running <b>MATSim Server</b>.
-			Note that produced data are returned to <tt>XML</tt> format.</p>
-			<br/>
+		<h2>REST API Documentation</h2>
+		
+		<p>You can find here documentation about REST API provided by a running <b>MATSim Server</b>.
+			
+		Note that produced data(s) are returned to <tt>XML</tt> format.</p>
+		
+		<br/>
+		
+		<section>
 						
 			<hr></hr>
 			
-			<subsection>
-				<!-- /simulation/actives -->
+			<subsection name="/simulation/actives">
 				<div class="row-fluid">
 					<div class="span1"><span class="label label-info">GET</span></div>
 					<div class="span1"><tt>/simulation/actives</tt></div>
@@ -36,8 +39,7 @@
 			
 			<hr></hr>
 			
-			<subsection>			
-				<!-- /simulation/{id}/state -->
+			<subsection name="/simulation/id/state">			
 				<div class="row-fluid">
 					<div class="span1"><span class="label label-info">GET</span></div>
 					<div class="span1"><tt>/simulation/{id}/state</tt></div>
@@ -69,8 +71,7 @@
 			
 			<hr></hr>
 			
-			<subsection>
-				<!-- /simulation/run -->
+			<subsection name="/simulation/run">
 				<div class="row-fluid">
 					<div class="span1"><span class="label label-danger">POST</span></div>
 					<div class="span1"><tt>/simulation/run</tt></div>
@@ -100,8 +101,7 @@
 			
 						<hr></hr>
 			
-			<subsection>
-				<!-- /simulation/{id}/download -->
+			<subsection name="/simulation/id/download">
 				<div class="row-fluid">
 					<div class="span1"><span class="label label-info">GET</span></div>
 					<div class="span1"><tt>/simulation/{id}/download</tt></div>

@@ -30,8 +30,16 @@
 						<body />
 					</sections>
 				</index>
+				<api>
+					<toc>sidebar</toc>
+				</api>
 			</pages>
 			<skinAttribution>false</skinAttribution>
+			<bottomNav>
+				<column>Server</column>
+				<column>Documentation</column>
+			</bottomNav>
+			<highlightJs>true</highlightJs>
 		</reflowSkin>
 	</custom>
 	
@@ -41,13 +49,23 @@
 			<link rel="stylesheet" type="text/css" href="css/extension.css" />
 		</head>
 
-		<links>
-			<item name="Introduction" href="index.html"/>
+		<menu name="Server">
 			<item name="Download" href="https://github.com/Faylixe/MATSimServer/releases"/>
-			<item name="RESTFull API" href="api.html" />
-			<item name="Javadoc" href="apidocs/index.html"/>
-		</links>
+			<item name="Github repository" href="https://github.com/Faylixe/MATSimServer" />
+			<item name="Report a bug" href="https://github.com/Faylixe/MATSimServer/issues" />
+		</menu>
 		
+		<menu name="Documentation">
+			<item name="Introduction" href="index.html" />
+			<item name="Usage" href="usage.html" />
+			<item name="API" href="api.html" />
+			<item name="Javadoc" href="apidocs/index.html" />
+		</menu>
+
+		<footer>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+			<script src="js/footer.js"></script>
+		</footer>
 	</body>
 	
 </project>
