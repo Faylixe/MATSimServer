@@ -65,6 +65,14 @@ public final class Simulation implements StartupListener, ShutdownListener,
 	}
 
 	/**
+	 * Working directory getter.
+	 * 
+	 * @return Path of the working directory.
+	 */
+	public Path getPath() {
+		return path;
+	}
+	/**
 	 * Indicates if this simulation is active or not.
 	 * 
 	 * @return <tt>true</tt> if this simulation is running, <tt>false</tt> otherwise.

@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.matsim.server.runtime.IllegalSimulationArchive;
 import org.matsim.server.runtime.MATSimRuntime;
 import org.matsim.server.runtime.SimulationWorkbench;
 import org.matsim.server.runtime.model.Simulation;
@@ -101,7 +102,12 @@ public final class SimulationService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response run(@FormDataParam("input") final InputStream stream, @FormDataParam("input") final FormDataContentDisposition header) {
 		final Simulation simulation = workbench.createSimulation(stream);
-		MATSimRuntime.commit(simulation);
+		try {
+			MATSimRuntime.commit(simulation);
+		}
+		catch (final Exception e) {
+			throw new IllegalSimulationArchive(e);
+		}
 		return Response.status(200).build();
 	}
 

@@ -86,8 +86,9 @@ public final class SimulationWorkbench {
 	public Simulation createSimulation(final InputStream stream) {
 		try {
 			final Path directory = FileContainer.createDirectory();
-			Files.copy(stream, directory.resolve(Paths.get(INPUT_NAME)));
-			final ZipReader reader = new ZipReader(stream);
+			final Path archive = directory.resolve(Paths.get(INPUT_NAME));
+			Files.copy(stream, archive);
+			final ZipReader reader = new ZipReader(Files.newInputStream(archive));
 			reader.extract(directory);
 			return Simulation.createSimulation(directory);
 		}

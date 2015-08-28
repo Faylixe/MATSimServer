@@ -36,6 +36,18 @@ public final class FileContainer {
 	}
 
 	/**
+	 * Ensures that the target root directory exist
+	 * and creates it otherwise.
+	 * 
+	 * @throws IOException If any error occurs while creating root directories.
+	 */
+	private void initialize() throws IOException {
+		if (!Files.exists(root)) {
+			Files.createDirectories(root);
+		}
+	}
+
+	/**
 	 * Creates a new working directory child
 	 * using a {@link UUID} as directory name.
 	 * 
@@ -61,6 +73,7 @@ public final class FileContainer {
 		synchronized (FileContainer.class) {
 			if (!INSTANCE.isPresent()) {
 				INSTANCE = Optional.of(new FileContainer());
+				INSTANCE.get().initialize();
 			}
 		}
 		return INSTANCE.get().create();

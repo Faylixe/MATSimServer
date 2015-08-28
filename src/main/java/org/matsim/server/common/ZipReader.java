@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.log4j.Logger;
 
 /**
  * Small utility class that allows to read
@@ -17,6 +18,9 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
  * @author fv
  */
 public final class ZipReader {
+	
+	/** Class logger. **/
+	private static final Logger LOG = Logger.getLogger(ZipReader.class);
 
 	/** ZIP input stream to read. **/
 	private final ZipArchiveInputStream stream;
@@ -45,7 +49,14 @@ public final class ZipReader {
 			final ZipArchiveEntry entry = current.get();
 			final Path file = Paths.get(entry.getName());
 			final Path path = target.resolve(file);
-			Files.copy(stream, path);
+			if (entry.isDirectory()) {
+				Files.createDirectories(path);
+				LOG.info("Creating directory" + path.toString());
+			}
+			else {
+				Files.copy(stream, path);
+				LOG.info("Writing file " + path.toString());
+			}
 			current = Optional.ofNullable(stream.getNextZipEntry());
 		}
 	}

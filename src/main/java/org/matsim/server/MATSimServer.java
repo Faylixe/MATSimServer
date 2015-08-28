@@ -37,6 +37,8 @@ public final class MATSimServer extends ResourceConfig  {
 	 * @param args Command line args.
 	 */
 	public static void main(final String [] args) {
+		// Setup default target path.
+		System.setProperty(MATSimServerConstants.CONTAINER_PROPERTY, MATSimServerConstants.DEFAULT_CONTAINER);
 		// Build URI.
 		final UriBuilder builder = UriBuilder.fromUri(MATSimServerConstants.DEFAULT_HOSTNAME);
 		builder.port(MATSimServerConstants.DEFAULT_PORT);
