@@ -24,3 +24,22 @@ and simulation steps (mobsim, scoring, or replanning) as well.
 
 Want to start ? Just download [MATSim Server](https://github.com/Faylixe/MATSimServer/releases)
 java binary and uploads it to your server, once it is done then run it !
+
+### Running MATSim Server
+Running server is as easy as starting a Java application. Once you have
+downloaded server jar file and uploaded to your target machine, just run
+the following command :
+
+```bash
+java -jar matsim-server.jar
+```
+
+### Server file container
+By default, server instance will create a directory named ``.container`` if not
+already existing and will write each simulation files on it. If you wish to set
+another directory as target directory please use the Java property
+``org.matsim.server.container`` like following :
+
+```bash
+java -jar matsim-server.jar -Dorg.matsim.server.container=/path/to/your/directory
+```
