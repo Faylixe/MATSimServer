@@ -1,14 +1,7 @@
-[![Build Status](https://travis-ci.org/Faylixe/MATSimServer.svg?branch=master)](https://travis-ci.org/Faylixe/MATSimServer)
+# MATSim Server [![Build Status](https://travis-ci.org/Faylixe/MATSimServer.svg?branch=master)](https://travis-ci.org/Faylixe/MATSimServer)
 
-![MATSim Server](http://matsimstudio.org/images/server.png)
-
-## What is MATSim Server ?
-
-**MATSim Server** is a stand alone components originally developed for
-[MATSim Studio](http://matsimstudio.org) in order to delegate simulation
+**MATSim Server** is a HTTP server that aims to delegate simulation
 execution into another machine. Including following features :
-
----
 
 #### Distant Execution
 
@@ -27,8 +20,7 @@ can retrieve output data using the API as well.
 Track simulation progress whenever you want, including iteration number,
 and simulation steps (mobsim, scoring, or replanning) as well.
 
----
-
 ## Getting started
 
-Want to start ? Just download [MATSim Server](https://github.com/Faylixe/MATSimServer/releases) java binary and uploads it to your server, once it is done then run it !
+Want to start ? Just download [MATSim Server](https://github.com/Faylixe/MATSimServer/releases)
+java binary and uploads it to your server, once it is done then run it !
