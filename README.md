@@ -1,5 +1,10 @@
 # MATSim Server [![Build Status](https://travis-ci.org/Faylixe/MATSimServer.svg?branch=master)](https://travis-ci.org/Faylixe/MATSimServer)
 
+* [What is MATSim Server](#what-is-matsim-server)
+* [Getting started](#getting-started)
+  - [Running MATSim Server](#running-matsim-server)
+  - [Server file container](#server-file-container)
+* [API documentation](#api-documentation)
 
 ## What is MATSim Server ?
 
@@ -48,6 +53,11 @@ Retrieves all running simulations identifier.
 * **GET** ``/simulation/{id}/state``
 
 Retrieves state of the simulation corresponding to the given ``id``.
+Returned state will be defined by following attributes :
+
+  - Simulation duration
+  - *(Optional)* Current iteration if running
+  - *(Optional)* Current phase if running
 
 * **POST** ``/simulation/run``
 
