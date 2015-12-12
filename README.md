@@ -51,4 +51,15 @@ Retrieves state of the simulation corresponding to the given ``id``.
 
 * **POST** ``/simulation/run``
 
+Simulation submission. A ZIP archive file is expected containing required
+initial demand for running simulation. Once data are validated, simulation
+is started in a distinct thread and could be monitored. A submitted archive
+should at least contains a file named ``config.xml`` which is the simulation
+configuration file that will be looked for.
+
 * **GET** ``/simulation/{id}/download``
+
+Returns a ZIP archive which contains a ran simulation output content.
+If the simulation hasn't finished yet, or has encountered error, a XML
+error object will be returned indicating that the simulation output has
+not been found.
