@@ -35,3 +35,20 @@ another directory as target directory please use the Java property
 ```bash
 java -jar matsim-server.jar -Dorg.matsim.server.container=/path/to/your/directory
 ```
+
+## API documentation
+
+You can find here documentation about REST API provided by a running
+MATSim Server. Note that produced data(s) are returned to XML format.
+
+* **GET** ``/simulation/actives``
+
+Retrieves all running simulations identifier.
+
+* **GET** ``/simulation/{id}/state``
+
+Retrieves state of the simulation corresponding to the given ``id``.
+
+* **POST** ``/simulation/run``
+
+* **GET** ``/simulation/{id}/download``
